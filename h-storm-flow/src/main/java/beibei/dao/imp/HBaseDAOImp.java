@@ -3,6 +3,7 @@ package beibei.dao.imp;
 import beibei.dao.HBaseDAO;
 import kafka.productor.KafkaProperties;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.TableName;
@@ -12,6 +13,7 @@ import org.apache.hadoop.hbase.filter.PrefixFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class HBaseDAOImp implements HBaseDAO {
 
@@ -36,22 +38,33 @@ public class HBaseDAOImp implements HBaseDAO {
     }
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
+
         HBaseDAO dao = new HBaseDAOImp();
 		List<Put> list = new ArrayList<Put>();
-		Put put = new Put("cloudy".getBytes());
-		put.addColumn("cf".getBytes(), "name".getBytes(), "zhaoliu1".getBytes()) ;
+		Put put = new Put("123456".getBytes());
+		put.addColumn("cf".getBytes(), "name".getBytes(), "zhaoliu2".getBytes()) ;
 		list.add(put) ;
 		dao.save(put, "test") ;
-//		put.add("cf".getBytes(), "addr".getBytes(), "shanghai1".getBytes()) ;
-//		list.add(put) ;
-//		put.add("cf".getBytes(), "age".getBytes(), "30".getBytes()) ;
-//		list.add(put) ;
-//		put.add("cf".getBytes(), "tel".getBytes(), "13567882341".getBytes()) ;
-//		list.add(put) ;
-//
-//		dao.save(list, "test");
-//		dao.save(put, "test") ;
+        put = new Put("223456".getBytes());
+        put.addColumn("cf".getBytes(), "name".getBytes(), "zhaoliu2".getBytes()) ;
+        list.add(put) ;
+        dao.save(put, "test") ;
+		put.addColumn("cf".getBytes(), "addr".getBytes(), "shanghai1".getBytes()) ;
+		list.add(put) ;
+		put.addColumn("cf".getBytes(), "age".getBytes(), "30".getBytes()) ;
+		list.add(put) ;
+		put.addColumn("cf".getBytes(), "tel".getBytes(), "13567882341".getBytes()) ;
+		list.add(put) ;
+
+		dao.save(list, "test");
+		dao.save(put, "test") ;
+
+        List<Result> list2 = dao.getRows("test", "", new String[]{"name","addr"});
+        for (Result rs : list2) {
+            byte[] value = rs.value();
+            System.out.println(new String(rs.getRow())+"***"+new String(value));
+        }
+
 //		dao.insert("test", "testrow", "cf", "age", "35") ;
 //		dao.insert("test", "testrow", "cf", "cardid", "12312312335") ;
 //		dao.insert("test", "testrow", "cf", "tel", "13512312345") ;
@@ -76,9 +89,7 @@ public class HBaseDAOImp implements HBaseDAO {
         try {
             table = connection.getTable(TableName.valueOf(tableName));
             table.put(put);
-
         } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             try {
                 table.close();
@@ -118,7 +129,7 @@ public class HBaseDAOImp implements HBaseDAO {
             for (int i = 0; i < quailifer.length; i++) {
                 String col = quailifer[i];
                 String val = value[i];
-                put.add(family.getBytes(), col.getBytes(), val.getBytes());
+                put.addColumn(family.getBytes(), col.getBytes(), val.getBytes());
             }
             table.put(put);
         } catch (Exception e) {
@@ -139,7 +150,6 @@ public class HBaseDAOImp implements HBaseDAO {
             table = connection.getTable(TableName.valueOf(tableName));
             table.put(Put);
         } catch (Exception e) {
-            // TODO: handle exception
         } finally {
             try {
                 table.close();
