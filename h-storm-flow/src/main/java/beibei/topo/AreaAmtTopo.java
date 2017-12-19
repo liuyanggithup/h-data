@@ -10,9 +10,6 @@ import org.apache.storm.topology.TopologyBuilder;
 
 public class AreaAmtTopo {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 
 		TopologyBuilder builder = new TopologyBuilder();
