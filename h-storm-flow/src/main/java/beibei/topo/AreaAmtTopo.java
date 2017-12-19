@@ -14,7 +14,6 @@ public class AreaAmtTopo {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		TopologyBuilder builder = new TopologyBuilder();
 
