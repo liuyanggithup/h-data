@@ -50,7 +50,7 @@ public class OrderBaseSpout implements IRichSpout {
             //从队列中取出数据
             String str = queue.poll();
             //进行数据过滤
-            //System.out.println("TaskId:"+TaskId+";  str="+str);
+            System.out.println("TaskId:"+TaskId+";  str="+str);
             //将数据交由Bolt处理
             collector.emit(new Values(str));
         }
