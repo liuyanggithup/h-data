@@ -63,6 +63,15 @@ public class HBaseDAOImp implements HBaseDAO {
         for (Result rs : list2) {
             byte[] value = rs.value();
             System.out.println(new String(rs.getRow())+"***"+new String(value));
+
+            for (KeyValue keyValue : rs.raw()) {
+                System.out.println("rowkey:" + new String(keyValue.getRow()));
+                System.out.println("Qualifier:" + new String(keyValue.getQualifier()));
+                System.out.println("Value:" + new String(keyValue.getValue()));
+                System.out.println("----------------");
+            }
+
+
         }
 
 //		dao.insert("test", "testrow", "cf", "age", "35") ;
