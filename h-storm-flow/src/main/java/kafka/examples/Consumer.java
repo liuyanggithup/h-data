@@ -57,7 +57,7 @@ public class Consumer extends Thread {
             ConsumerRecords<String, String> records = consumer.poll(100);
             for (ConsumerRecord<String, String> record : records) {
                 System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
-
+                System.out.println("消费数据："+record.value());
             }
         }
 
