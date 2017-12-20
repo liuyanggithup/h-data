@@ -40,39 +40,47 @@ public class HBaseDAOImp implements HBaseDAO {
     public static void main(String[] args) {
 
         HBaseDAO dao = new HBaseDAOImp();
-		List<Put> list = new ArrayList<Put>();
-		Put put = new Put("123456".getBytes());
-		put.addColumn("cf".getBytes(), "name".getBytes(), "zhaoliu2".getBytes()) ;
-		list.add(put) ;
-		dao.save(put, "test") ;
-        put = new Put("223456".getBytes());
-        put.addColumn("cf".getBytes(), "name".getBytes(), "zhaoliu2".getBytes()) ;
-        list.add(put) ;
-        dao.save(put, "test") ;
-		put.addColumn("cf".getBytes(), "addr".getBytes(), "shanghai1".getBytes()) ;
-		list.add(put) ;
-		put.addColumn("cf".getBytes(), "age".getBytes(), "30".getBytes()) ;
-		list.add(put) ;
-		put.addColumn("cf".getBytes(), "tel".getBytes(), "13567882341".getBytes()) ;
-		list.add(put) ;
 
-		dao.save(list, "test");
-		dao.save(put, "test") ;
-
-        List<Result> list2 = dao.getRows("test", "", new String[]{"name","addr"});
-        for (Result rs : list2) {
-            byte[] value = rs.value();
-            System.out.println(new String(rs.getRow())+"***"+new String(value));
-
-            for (KeyValue keyValue : rs.raw()) {
-                System.out.println("rowkey:" + new String(keyValue.getRow()));
-                System.out.println("Qualifier:" + new String(keyValue.getQualifier()));
-                System.out.println("Value:" + new String(keyValue.getValue()));
-                System.out.println("----------------");
-            }
+        dao.insert("area_order", "2017-12-20_1", "cf", "order_amt", 0 + "");
+        dao.insert("area_order", "2017-12-20_2", "cf", "order_amt", 0 + "");
+        dao.insert("area_order", "2017-12-20_3", "cf", "order_amt", 0 + "");
+        dao.insert("area_order", "2017-12-20_4", "cf", "order_amt", 0 + "");
+        dao.insert("area_order", "2017-12-20_5", "cf", "order_amt", 0 + "");
 
 
-        }
+//		List<Put> list = new ArrayList<Put>();
+//		Put put = new Put("123456".getBytes());
+//		put.addColumn("cf".getBytes(), "name".getBytes(), "zhaoliu2".getBytes()) ;
+//		list.add(put) ;
+//		dao.save(put, "test") ;
+//        put = new Put("223456".getBytes());
+//        put.addColumn("cf".getBytes(), "name".getBytes(), "zhaoliu2".getBytes()) ;
+//        list.add(put) ;
+//        dao.save(put, "test") ;
+//		put.addColumn("cf".getBytes(), "addr".getBytes(), "shanghai1".getBytes()) ;
+//		list.add(put) ;
+//		put.addColumn("cf".getBytes(), "age".getBytes(), "30".getBytes()) ;
+//		list.add(put) ;
+//		put.addColumn("cf".getBytes(), "tel".getBytes(), "13567882341".getBytes()) ;
+//		list.add(put) ;
+//
+//		dao.save(list, "test");
+//		dao.save(put, "test") ;
+//
+//        List<Result> list2 = dao.getRows("test", "", new String[]{"name","addr"});
+//        for (Result rs : list2) {
+//            byte[] value = rs.value();
+//            System.out.println(new String(rs.getRow())+"***"+new String(value));
+//
+//            for (KeyValue keyValue : rs.raw()) {
+//                System.out.println("rowkey:" + new String(keyValue.getRow()));
+//                System.out.println("Qualifier:" + new String(keyValue.getQualifier()));
+//                System.out.println("Value:" + new String(keyValue.getValue()));
+//                System.out.println("----------------");
+//            }
+//
+//
+//        }
 
 //		dao.insert("test", "testrow", "cf", "age", "35") ;
 //		dao.insert("test", "testrow", "cf", "cardid", "12312312335") ;
