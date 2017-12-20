@@ -15,6 +15,7 @@ import tools.DateFmt;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class AreaAmtBolt implements IBasicBolt {
@@ -54,7 +55,10 @@ public class AreaAmtBolt implements IBasicBolt {
             if (count == null) {
                 count = 0.0;
             }
+
+            System.err.println("处理数据: area_id=" + area_id + ";order_amt=" + order_amt + " old_order_amt=" + count+ "; new_order_amt=" + (count+order_amt));
             count += order_amt;
+
             //将计算的值写入map
             countsMap.put(order_date + "_" + area_id, count);
             System.err.println("areaAmtBolt:" + order_date + "_" + area_id + "=" + count);
@@ -87,7 +91,8 @@ public class AreaAmtBolt implements IBasicBolt {
     }
 
     public Map<String, Double> initMap(String rowKeyDate, HBaseDAO dao) {
-        Map<String, Double> countsMap = new HashMap<String, Double>();
+        Map<String, Double> countsMap = new ConcurrentHashMap<>();
+        //Map<String, Double> countsMap = new HashMap<String, Double>();
         List<Result> list = dao.getRows("area_order", rowKeyDate, new String[]{"order_amt"});
 
         for (Result rsResult : list) {
