@@ -43,7 +43,7 @@ public class OrderProducer extends Thread {
         int i = 0;
         while (true) {
             i++;
-            if (i == 3) {
+            if (i == 10) {
                 break;
             }
             String messageStr = i + "\t" + order_amt[random.nextInt(5)] + "\t" + DateFmt.getCountDate(null, DateFmt.date_long) + "\t" + area_id[random.nextInt(5)];
