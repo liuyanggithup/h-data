@@ -49,16 +49,16 @@ public class AreaVo {
         this.chengdu = chengdu;
     }
 
-    public void setData(String areaid, String amt) {
-        if (areaid.equals("1")) {
+    public void setData(String areaId, String amt) {
+        if (areaId.equals("1")) {
             this.setBeijing(amt);
-        } else if (areaid.equals("2")) {
+        } else if (areaId.equals("2")) {
             this.setShanghai(amt);
-        } else if (areaid.equals("3")) {
+        } else if (areaId.equals("3")) {
             this.setGuangzhou(amt);
-        } else if (areaid.equals("4")) {
+        } else if (areaId.equals("4")) {
             this.setShenzhen(amt);
-        } else if (areaid.equals("5")) {
+        } else if (areaId.equals("5")) {
             this.setChengdu(amt);
         }
     }
