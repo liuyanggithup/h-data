@@ -92,13 +92,17 @@ public class AreaAmtBolt implements IBasicBolt {
         List<Result> list = dao.getRows("area_order", rowKeyDate, new String[]{"order_amt"});
 
         for (Result rsResult : list) {
-            String rowKey = new String(rsResult.getRow());
-            for (KeyValue keyValue : rsResult.raw()) {
-                if ("order_amt".equals(new String(keyValue.getQualifier()))) {
-                    countsMap.put(rowKey, Double.parseDouble(new String(keyValue.getValue())));
-                    break;
-                }
-            }
+//            String rowKey = new String(rsResult.getRow());
+//            for (KeyValue keyValue : rsResult.raw()) {
+//                if ("order_amt".equals(new String(keyValue.getQualifier()))) {
+//                    countsMap.put(rowKey, Double.parseDouble(new String(keyValue.getValue())));
+//                    break;
+//                }
+//            }
+            byte[] row = rsResult.getRow();
+            byte[] value = rsResult.value();
+            System.out.println(new String(rsResult.getRow())+"***"+new String(value));
+            countsMap.put(new String(row),Double.parseDouble(new String(value)));
         }
         return countsMap;
     }

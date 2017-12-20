@@ -30,6 +30,9 @@ public class AreaRsltBolt implements IBasicBolt {
         countsMap.put(date_areaid, order_amt);
 
         endTime = System.currentTimeMillis();
+        /**
+         * 5s更新一次HBase
+         */
         if (endTime - beginTime >= 5 * 1000) {
             for (String key : countsMap.keySet()) {
                 // put into hbase
@@ -42,6 +45,9 @@ public class AreaRsltBolt implements IBasicBolt {
 
     }
 
+    /**
+     * 初始化操作
+     */
     @Override
     public void prepare(Map stormConf, TopologyContext context) {
         dao = new HBaseDAOImp();
