@@ -33,7 +33,7 @@ public class AreaRsltBolt implements IBasicBolt {
         /**
          * 5s更新一次HBase
          */
-        if (endTime - beginTime >= 5 * 1000) {
+        if (true||endTime - beginTime >= 5 * 1000) {
             for (String key : countsMap.keySet()) {
                 // put into hbase
                 // 2014-05-05_1,amt
