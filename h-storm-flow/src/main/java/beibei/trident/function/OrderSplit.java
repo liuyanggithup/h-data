@@ -7,7 +7,7 @@ import org.apache.storm.tuple.Values;
 import tools.DateFmt;
 
 public class OrderSplit extends BaseFunction {
-	
+
 
     String patten = null;
 
@@ -20,10 +20,11 @@ public class OrderSplit extends BaseFunction {
 
         if (!tuple.isEmpty()) {
             String msg = tuple.getString(0);
+            // order_id,order_amt,create_time,province_id
             String value[] = msg.split(this.patten);
-            System.err.println("msg=" + msg);
+            System.err.println("OrderSplit-->msg=" + msg);
+            //"order_id", "order_amt", "create_date", "province_id"
             collector.emit(new Values(value[0], Double.parseDouble(value[1]), DateFmt.getCountDate(value[2], DateFmt.date_short), value[3]));
-
         }
     }
 

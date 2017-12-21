@@ -21,7 +21,7 @@ public class SplitBy extends BaseFunction {
         if (!tuple.isEmpty()) {
             String msg = tuple.getString(0);
             String value[] = msg.split(this.patten);
-            collector.emit(new Values(value[0], value[1], value[2]));
+            collector.emit(new Values(value[0], value[1]));
         }
     }
 

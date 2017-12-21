@@ -20,10 +20,10 @@ public class Split extends BaseFunction {
         if (!tuple.isEmpty()) {
             String msg = tuple.getString(0);
             System.out.println("*************"+msg+"*************");
-//            String value[] = msg.split(this.patten);
-//            for (String v : value) {
-//                collector.emit(new Values(v));
-//            }
+            String value[] = msg.split(this.patten);
+            for (String v : value) {
+                collector.emit(new Values(v));
+            }
         }
     }
 
