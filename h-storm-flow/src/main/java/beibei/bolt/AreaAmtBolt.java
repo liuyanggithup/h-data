@@ -12,7 +12,6 @@ import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
 import tools.DateFmt;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -56,7 +55,7 @@ public class AreaAmtBolt implements IBasicBolt {
                 count = 0.0;
             }
 
-            System.err.println("处理数据: area_id=" + area_id + ";order_amt=" + order_amt + " old_order_amt=" + count+ "; new_order_amt=" + (count+order_amt));
+            System.err.println("处理数据: area_id=" + area_id + ";order_amt=" + order_amt + " old_order_amt=" + count + "; new_order_amt=" + (count + order_amt));
             count += order_amt;
 
             //将计算的值写入map
@@ -98,8 +97,8 @@ public class AreaAmtBolt implements IBasicBolt {
         for (Result rsResult : list) {
             byte[] row = rsResult.getRow();
             byte[] value = rsResult.value();
-            System.out.println(new String(rsResult.getRow())+"***"+new String(value));
-            countsMap.put(new String(row),Double.parseDouble(new String(value)));
+            System.out.println(new String(rsResult.getRow()) + "***" + new String(value));
+            countsMap.put(new String(row), Double.parseDouble(new String(value)));
         }
         return countsMap;
     }
