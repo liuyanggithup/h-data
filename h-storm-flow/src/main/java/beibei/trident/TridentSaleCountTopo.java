@@ -22,7 +22,7 @@ import org.apache.storm.trident.testing.MemoryMapState;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.utils.Utils;
 
-public class TridentTopoSale1 {
+public class TridentSaleCountTopo {
 
 
     public static void main(String[] args) {
