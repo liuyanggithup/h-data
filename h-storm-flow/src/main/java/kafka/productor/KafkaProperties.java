@@ -23,8 +23,8 @@ public interface KafkaProperties {
 
 
     final static String groupId = "group1";
-    final static String topic = "track";
-    final static String Order_topic = "track";
-    final static String Log_topic = "track";
+    final static String topic = "topic";
+    final static String Order_topic = "Order_topic";
+    final static String Log_topic = "Log_topic";
 
 }
