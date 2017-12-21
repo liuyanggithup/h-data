@@ -2,6 +2,7 @@ package beibei.trident;
 
 
 import beibei.trident.function.Print;
+import kafka.api.OffsetRequest;
 import kafka.productor.KafkaProperties;
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
@@ -24,6 +25,10 @@ public class TridentTopoExample {
         config.scheme = new SchemeAsMultiScheme(new StringScheme());
         //batch size
         config.fetchSizeBytes = 100;
+        //旧版本设置config.forceFromStart=false
+        //Todo 版本临时解决方案，后期研究
+        config.startOffsetTime = OffsetRequest.LatestTime();
+
         TransactionalTridentKafkaSpout spout = new TransactionalTridentKafkaSpout(config);
         TridentTopology topology = new TridentTopology();
         topology.newStream("spout", spout).parallelismHint(1).each(new Fields(StringScheme.STRING_SCHEME_KEY), new Print(), new Fields("msg"));

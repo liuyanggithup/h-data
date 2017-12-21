@@ -33,7 +33,7 @@ public class OrderConsumer extends Thread {
     }
 
     public static void main(String[] args) {
-        OrderConsumer consumerThread = new OrderConsumer(KafkaProperties.Order_topic);
+        OrderConsumer consumerThread = new OrderConsumer(KafkaProperties.topic);
         consumerThread.start();
     }
 
