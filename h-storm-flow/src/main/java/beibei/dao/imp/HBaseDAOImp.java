@@ -3,9 +3,7 @@ package beibei.dao.imp;
 import beibei.dao.HBaseDAO;
 import kafka.productor.KafkaProperties;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.PrefixFilter;
@@ -13,7 +11,6 @@ import org.apache.hadoop.hbase.filter.PrefixFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class HBaseDAOImp implements HBaseDAO {
 
