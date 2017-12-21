@@ -30,14 +30,14 @@ public class OrderBaseSpout implements IRichSpout {
 
     @Override
     public void open(Map map, TopologyContext context, SpoutOutputCollector collector) {
-        this.collector = collector ;
+        this.collector = collector;
         //获取topology任务ID
-        TaskId = context.getThisTaskId() ;
+        TaskId = context.getThisTaskId();
         //创建消费者消费数据
-        OrderConsumer consumer = new OrderConsumer(topic) ;
-        consumer.start() ;
+        OrderConsumer consumer = new OrderConsumer(topic);
+        consumer.start();
         //为队列赋值
-        queue = consumer.getQueue() ;
+        queue = consumer.getQueue();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class OrderBaseSpout implements IRichSpout {
             //从队列中取出数据
             String str = queue.poll();
             //进行数据过滤
-            System.out.println("TaskId:"+TaskId+";  str="+str);
+            System.out.println("TaskId:" + TaskId + ";  str=" + str);
             //将数据交由Bolt处理
             collector.emit(new Values(str));
         }
