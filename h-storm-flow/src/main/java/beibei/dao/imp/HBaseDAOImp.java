@@ -25,7 +25,10 @@ public class HBaseDAOImp implements HBaseDAO {
         conf.set("hbase.zookeeper.property.clientPort", "2181");
 
         try {
-            System.setProperty("hadoop.home.dir", "E:\\gitpro\\HADOOP_HOME");
+            String os = System.getProperty("os.name");
+            if (os.toLowerCase().startsWith("win")) {
+                System.setProperty("hadoop.home.dir", "E:\\gitpro\\HADOOP_HOME");
+            }
             connection = ConnectionFactory.createConnection(conf);
             admin = connection.getAdmin();
 
