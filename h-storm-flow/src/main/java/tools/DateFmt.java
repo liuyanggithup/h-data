@@ -47,6 +47,8 @@ public class DateFmt {
 
     public static void main(String[] args) throws Exception {
 
+        String countDate = getCountDate(null, date_short);
+        System.out.println(countDate);
 //		System.out.println(DateFmt.getCountDate("2014-03-01 12:13:14", DateFmt.date_short));
         System.out.println(parseDate("2014-05-02").after(parseDate("2014-05-01")));
     }
