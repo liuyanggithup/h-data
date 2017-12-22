@@ -1,6 +1,7 @@
 package beibei.trident.drpc;
 
 
+import kafka.productor.KafkaProperties;
 import org.apache.storm.utils.DRPCClient;
 import org.apache.storm.utils.Utils;
 
@@ -12,8 +13,7 @@ public class TridentDRPCclient {
     public static void main(String[] args) throws Exception {
 
         Map config = Utils.readDefaultConfig();
-        DRPCClient client = new DRPCClient(config, "192.168.25.102", 3772);
-        //LocalDRPC client = new LocalDRPC();
+        DRPCClient client = new DRPCClient(config, KafkaProperties.hbase_zkList, 3772);
         try {
             while (true) {
                 System.err.println("销售额：" + client.execute("getOrderAmt", "2014-09-13:cf:amt_5 2014-09-13:cf:amt_8"));
