@@ -29,7 +29,7 @@ public class ProvinceSaleProducer extends Thread {
 
     public static void main(String[] args) {
 
-        ProvinceSaleProducer producerThread = new ProvinceSaleProducer(KafkaProperties.topic);
+        ProvinceSaleProducer producerThread = new ProvinceSaleProducer(KafkaProperties.Order_topic);
         producerThread.start();
     }
 
@@ -42,8 +42,8 @@ public class ProvinceSaleProducer extends Thread {
         int i = 0;
         while (true) {
             i++;
-            if (i == 100) {
-                //break;
+            if (i == 10) {
+                break;
             }
             String messageStr = i + "\t" + order_amt[random.nextInt(5)] + "\t" + DateFmt.getCountDate(null, DateFmt.date_long) + "\t" + province_id[random.nextInt(8)];
             System.out.println("product:" + messageStr);
