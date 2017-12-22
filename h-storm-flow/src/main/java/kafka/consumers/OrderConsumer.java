@@ -22,7 +22,7 @@ public class OrderConsumer extends Thread {
 
     private static KafkaConsumer createConsumer() {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "192.168.25.102:9092");
+        props.put("bootstrap.servers", KafkaProperties.broker_list);
         props.put("group.id", KafkaProperties.groupId);
         props.put("enable.auto.commit", "true");
         props.put("auto.commit.interval.ms", "1000");
@@ -33,7 +33,7 @@ public class OrderConsumer extends Thread {
     }
 
     public static void main(String[] args) {
-        OrderConsumer consumerThread = new OrderConsumer(KafkaProperties.topic);
+        OrderConsumer consumerThread = new OrderConsumer(KafkaProperties.Order_topic);
         consumerThread.start();
     }
 

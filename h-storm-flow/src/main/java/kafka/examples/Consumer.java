@@ -35,7 +35,7 @@ public class Consumer extends Thread {
 
     private static KafkaConsumer createConsumer() {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "192.168.25.102:9092");
+        props.put("bootstrap.servers", KafkaProperties.broker_list);
         props.put("group.id", "test");
         props.put("enable.auto.commit", "true");
         props.put("auto.commit.interval.ms", "1000");

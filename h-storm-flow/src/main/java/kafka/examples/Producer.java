@@ -31,7 +31,7 @@ public class Producer extends Thread {
     private final Properties props = new Properties();
 
     public Producer(String topic) {
-        props.put("bootstrap.servers", "192.168.25.102:9092");
+        props.put("bootstrap.servers", KafkaProperties.broker_list);
         props.put("acks", "all");
         props.put("retries", 0);
         props.put("batch.size", 16384);

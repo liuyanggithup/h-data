@@ -17,9 +17,9 @@
 package kafka.productor;
 
 public interface KafkaProperties {
-    final static String zkConnect = "192.168.25.102:2181";
-    final static String broker_list = "192.168.25.102:9092";
-    final static String hbase_zkList = "192.168.25.102";
+    final static String zkConnect = "39.106.120.19:2181";
+    final static String broker_list = "39.106.120.19:9092";
+    final static String hbase_zkList = "39.106.120.19";
 
 
     final static String groupId = "group1";
