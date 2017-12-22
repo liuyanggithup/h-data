@@ -23,6 +23,7 @@ import org.apache.storm.trident.operation.builtin.Sum;
 import org.apache.storm.trident.testing.MemoryMapState;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.utils.Utils;
+import tools.DateFmt;
 
 public class TridentSaleCountTopo {
 
@@ -43,7 +44,6 @@ public class TridentSaleCountTopo {
         TridentTopology topology = new TridentTopology();
         LocalDRPC drpc = new LocalDRPC() ;
 
-
         //销售额
         TridentState amtState = topology.newStream("spout", spout)
                 .parallelismHint(3)
@@ -52,12 +52,12 @@ public class TridentSaleCountTopo {
                 .groupBy(new Fields("create_date","province_id"))
                 .persistentAggregate(new MemoryMapState.Factory(), new Fields("order_amt"), new Sum(), new Fields("sum_amt"));
 
-        topology.newDRPCStream("getOrderAmt", drpc)
+        topology.newDRPCStream("getOrderAmt", drpc).parallelismHint(1)
                 .each(new Fields("args"), new Split(" "), new Fields("arg"))
                 .each(new Fields("arg"), new SplitBy("\\:"), new Fields("create_date","province_id"))
                 .groupBy(new Fields("create_date","province_id"))
                 .stateQuery(amtState, new Fields("create_date","province_id"), new MapGet(), new Fields("sum_amt"))
-//		.applyAssembly(new FirstN(5, "sum_amt", true))
+//		        .applyAssembly(new FirstN(5, "sum_amt", true))
         ;
 
         //订单数
@@ -68,12 +68,12 @@ public class TridentSaleCountTopo {
                 .groupBy(new Fields("create_date","province_id"))
                 .persistentAggregate(new MemoryMapState.Factory(), new Fields("order_id"), new Count(), new Fields("order_num"));
 
-        topology.newDRPCStream("getOrderNum", drpc)
+        topology.newDRPCStream("getOrderNum", drpc).parallelismHint(1)
                 .each(new Fields("args"), new Split(" "), new Fields("arg"))
                 .each(new Fields("arg"), new SplitBy("\\:"), new Fields("create_date","province_id"))
                 .groupBy(new Fields("create_date","province_id"))
                 .stateQuery(orderState, new Fields("create_date","province_id"), new MapGet(), new Fields("order_num"))
-//		.applyAssembly(new FirstN(5, "order_num", true))
+//		        .applyAssembly(new FirstN(5, "order_num", true))
         ;
 
         Config conf = new Config() ;
@@ -81,9 +81,13 @@ public class TridentSaleCountTopo {
         LocalCluster cluster = new LocalCluster() ;
         cluster.submitTopology("myTopo", conf, topology.build());
 
+
+        String countDate = DateFmt.getCountDate(null, DateFmt.date_short);
+
+
         while (true) {
-//			System.err.println("销售额："+drpc.execute("getOrderAmt", "2017-12-21:1 2017-12-21:2 2017-12-21:3 2017-12-21:4 2017-12-21:5")) ;
-            System.err.println("订单数："+drpc.execute("getOrderNum", "2017-12-21:1 2017-12-21:2 2017-12-21:3 2017-12-21:4 2017-12-21:5")) ;
+			System.err.println("销售额："+drpc.execute("getOrderAmt", countDate+":1 "+countDate+":2 "+countDate+":3 "+countDate+":4 "+countDate+":5 "+countDate+":6 "+countDate+":7 "+countDate+":8")) ;
+            System.err.println("订单数："+drpc.execute("getOrderNum", countDate+":1 "+countDate+":2 "+countDate+":3 "+countDate+":4 "+countDate+":5 "+countDate+":6 "+countDate+":7 "+countDate+":8")) ;
             Utils.sleep(5000);
         }
 
