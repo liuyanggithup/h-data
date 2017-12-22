@@ -2,7 +2,7 @@ package kafka.productor;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.utils.Utils;
+import org.apache.storm.utils.Utils;
 import tools.DateFmt;
 
 import java.util.Properties;
@@ -15,7 +15,7 @@ public class ProvinceSaleProducer extends Thread {
     private final Properties props = new Properties();
 
     public ProvinceSaleProducer(String topic) {
-        props.put("bootstrap.servers", "192.168.25.102:9092");
+        props.put("bootstrap.servers", KafkaProperties.broker_list);
         props.put("acks", "all");
         props.put("retries", 0);
         props.put("batch.size", 16384);
@@ -42,13 +42,13 @@ public class ProvinceSaleProducer extends Thread {
         int i = 0;
         while (true) {
             i++;
-            if (i == 10) {
-                break;
+            if (i == 100) {
+                //break;
             }
             String messageStr = i + "\t" + order_amt[random.nextInt(5)] + "\t" + DateFmt.getCountDate(null, DateFmt.date_long) + "\t" + province_id[random.nextInt(8)];
             System.out.println("product:" + messageStr);
             producer.send(new ProducerRecord(topic, messageStr));
-            //Utils.sleep(1000);
+            Utils.sleep(1000);
         }
 
     }
