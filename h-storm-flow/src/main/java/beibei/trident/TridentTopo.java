@@ -23,9 +23,7 @@ import org.apache.storm.kafka.trident.TridentKafkaConfig;
 import org.apache.storm.spout.SchemeAsMultiScheme;
 import org.apache.storm.trident.TridentState;
 import org.apache.storm.trident.TridentTopology;
-import org.apache.storm.trident.operation.builtin.Count;
-import org.apache.storm.trident.operation.builtin.MapGet;
-import org.apache.storm.trident.operation.builtin.Sum;
+import org.apache.storm.trident.operation.builtin.*;
 import org.apache.storm.trident.state.StateFactory;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.utils.Utils;
@@ -56,14 +54,14 @@ public class TridentTopo {
                 .shuffle()
                 .groupBy(new Fields("create_date", "cf", "province_id"))
                 .persistentAggregate(state, new Fields("order_amt"), new Sum(), new Fields("sum_amt"));
-//		.persistentAggregate(new MemoryMapState.Factory(), new Fields("order_amt"), new Sum(), new Fields("sum_amt"));
 
         topology.newDRPCStream("getOrderAmt", drpc)
                 .each(new Fields("args"), new Split(" "), new Fields("arg"))
                 .each(new Fields("arg"), new SplitBy("\\:"), new Fields("create_date", "cf", "province_id"))
                 .groupBy(new Fields("create_date", "cf", "province_id"))
                 .stateQuery(amtState, new Fields("create_date", "cf", "province_id"), new MapGet(), new Fields("sum_amt"))
-//		.applyAssembly(new FirstN(5, "sum_amt", true))
+                .each(new Fields("sum_amt"), new FilterNull())
+                .applyAssembly(new FirstN(5, "sum_amt", true))
         ;
 
         //订单数
@@ -73,14 +71,14 @@ public class TridentTopo {
                 .shuffle()
                 .groupBy(new Fields("create_date", "cf", "province_id"))
                 .persistentAggregate(state, new Fields("order_id"), new Count(), new Fields("order_num"));
-//		.persistentAggregate(new MemoryMapState.Factory(), new Fields("order_id"), new Count(), new Fields("order_num"));
 
         topology.newDRPCStream("getOrderNum", drpc)
                 .each(new Fields("args"), new Split(" "), new Fields("arg"))
                 .each(new Fields("arg"), new SplitBy("\\:"), new Fields("create_date", "cf", "province_id"))
                 .groupBy(new Fields("create_date", "cf", "province_id"))
                 .stateQuery(orderState, new Fields("create_date", "cf", "province_id"), new MapGet(), new Fields("order_num"))
-//		.applyAssembly(new FirstN(5, "order_num", true))
+                .each(new Fields("order_num"), new FilterNull())
+                .applyAssembly(new FirstN(5, "order_num", true))
         ;
         return topology.build();
     }
@@ -107,8 +105,8 @@ public class TridentTopo {
 
 
         while (true) {
-            System.err.println("销售额：" + drpc.execute("getOrderAmt", countDate + ":cf:amt_1 " + countDate + ":cf:amt_2 "));
-            System.err.println("订单数：" + drpc.execute("getOrderNum", countDate + ":cf:orderNum_1 " + countDate + ":cf:orderNum_2"));
+            System.err.println("销售额：" + drpc.execute("getOrderAmt", countDate + ":cf:amt_1 " + countDate + ":cf:amt_2 " + countDate + ":cf:amt_3 " + countDate + ":cf:amt_4 " + countDate + ":cf:amt_5 " + countDate + ":cf:amt_6 " + countDate + ":cf:amt_7 " + countDate + ":cf:amt_8"));
+            System.err.println("订单数：" + drpc.execute("getOrderNum", countDate + ":cf:orderNum_1 " + countDate + ":cf:orderNum_2 " + countDate + ":cf:orderNum_3 " + countDate + ":cf:orderNum_4 " + countDate + ":cf:orderNum_5 " + countDate + ":cf:orderNum_6 " + countDate + ":cf:orderNum_7 " + countDate + ":cf:orderNum_8"));
             Utils.sleep(5000);
         }
 
