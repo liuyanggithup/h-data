@@ -32,7 +32,10 @@ import org.apache.storm.utils.Utils;
 import tools.DateFmt;
 
 public class TridentTopo {
-
+    /**
+     * hbase shell
+     * create 'state','cf'
+     */
     public static StormTopology builder(LocalDRPC drpc) {
         TridentConfig tridentConfig = new TridentConfig("state");
         StateFactory state = HBaseAggregateState.transactional(tridentConfig);
