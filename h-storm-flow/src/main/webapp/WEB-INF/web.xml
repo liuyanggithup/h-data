@@ -46,8 +46,22 @@
 
     <servlet-mapping>
         <servlet-name>SaleTopSvlt</servlet-name>
-        <url-pattern>/servlet/SaleTopSvlt</url-pattern>
+        <url-pattern>/servlet/saleTop</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <description>This is the description of my J2EE component</description>
+        <display-name>This is the display name of my J2EE component</display-name>
+        <servlet-name>UvSvlt</servlet-name>
+        <servlet-class>beibei.svlt.UvSvlt</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UvSvlt</servlet-name>
+        <url-pattern>/servlet/uvSvlt</url-pattern>
+    </servlet-mapping>
+
 
 
 

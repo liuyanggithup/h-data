@@ -1,6 +1,6 @@
-<%@ page language="java" pageEncoding="UTF-8" %>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
-    String path = request.getContextPath();
+    String path=this.getServletContext().getContextPath();
 %>
 <html>
 <head>
@@ -15,16 +15,16 @@
         var series2;
         var initFlg = true;
 
-        var lst_x = 0;
-        var xTitleShow = "";
-        var isShowTip = false;//用于控制只在addpoint的时候才对tip框进行操作
+        var lst_x=0;
+        var xTitleShow="";
+        var isShowTip=false;//用于控制只在addpoint的时候才对tip框进行操作
 
-        function msg(m) {
+        function msg(m){
             showFrameData(m);
         }
     </script>
     <script type="text/javascript">
-        function initShow() {
+        function initShow(){
             //alert('init');
             var act = "<%=path%>/servlet/uvSvlt";
 
@@ -33,12 +33,12 @@
         }
 
         //展示数据
-        function showFrameData(m) {
-            var jsonData = eval("(" + m + ")");//转换为json对象
+        function showFrameData(m){
+            var jsonData = eval("("+m+")");//转换为json对象
 
             //跨天处理
             var isNewDay = jsonData.isNewDay;
-            if (isNewDay == 1) {
+            if(isNewDay==1){
                 initFlg = true;
                 //清空
                 series.remove(false);
@@ -47,40 +47,40 @@
                 chart.redraw();
                 //重绘
                 chart.addSeries({
-                    id: 1,
+                    id:1,
                     name: "当前UV",
                     color: '#FF0000',
                     type: 'spline',
-                    data: [[0, 0]]
-                }, false);
+                    data: [[0,0]]
+                },false);
                 chart.addSeries({
-                    id: 2,
+                    id:2,
                     name: "上月同期UV",
                     color: '#00B050',
                     type: 'spline',
-                    data: [[0, 0]]
-                }, false);
-                var seriestt = chart.series;
+                    data: [[0,0]]
+                },false);
+                var seriestt=chart.series;
                 series = seriestt[0];
                 series1 = seriestt[1];
                 series2 = seriestt[2];
                 //跨天之后3秒刷新一次页面，为的是使dataLabels生效
-                setInterval(function () {
+                setInterval(function() {
                     location.reload(true);
                 }, 3000);
             }
 
-            if (initFlg) {
-                series.addPoint([0, 0], true, false);
-                series1.addPoint([0, 0], true, false);
+            if(initFlg){
+                series.addPoint([0,0], true, false);
+                series1.addPoint([0,0], true, false);
                 series.setData(eval(jsonData.initData));
                 series1.setData(eval(jsonData.initHisData));
                 series2.setData(eval(jsonData.initHourData));
                 initFlg = false;
-            } else {
+            }else{
                 //持续加点
-                var option_ = {name: jsonData.name, x: jsonData.x, y: jsonData.y};
-                lst_x = jsonData.x;
+                var option_={name:jsonData.name, x:jsonData.x, y:jsonData.y};
+                lst_x=jsonData.x;
                 xTitleShow = jsonData.name;
                 series.addPoint(option_, true, false);
                 series2.setData(eval(jsonData.initHourData));
@@ -94,7 +94,7 @@
                 chart: {
                     renderTo: 'container',
                     events: {
-                        load: function () {
+                        load: function() {
                             series = this.series[0];
                             series1 = this.series[1];
                             series2 = this.series[2];
@@ -107,27 +107,27 @@
                     text: '实时非二跳UV统计',
                 },
                 xAxis: {
-                    min: 0,
-                    max: 24,
-                    categories: ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'
+                    min:0,
+                    max:24,
+                    categories: ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'
                         , '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
-                    labels: {
-                        step: 1,
+                    labels:{
+                        step:1,
                     }
                 },
                 yAxis: [{ // Primary yAxis
-                    min: 0,
+                    min : 0,
                     labels: {
                         //enabled: false,
-                        overflow: 'justify'
+                        overflow : 'justify'
                     }
                 }],
                 tooltip: {
                     valueDecimals: 0,
                 },
                 plotOptions: {
-                    series: {
-                        turboThreshold: 0,
+                    series:{
+                        turboThreshold:0,
                     },
                     spline: {
                         lineWidth: 4,
@@ -140,8 +140,8 @@
                         marker: {
                             enabled: false
                         },
-                        dataLabels: {
-                            enabled: true
+                        dataLabels : {
+                            enabled : true
                         }
                     }
                 },
@@ -151,8 +151,8 @@
                     legendIndex: 2,
                     type: 'spline',
                     cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true, //开启数据标签
+                    dataLabels:{
+                        enabled:true, //开启数据标签
                         align: 'left',
                         borderRadius: 5,
                         borderWidth: 1,
@@ -166,7 +166,7 @@
                         },
                         useHTML: true,
                         formatter: function () {
-                            if (lst_x == this.point.x && isShowTip) {
+                            if(lst_x==this.point.x&&isShowTip){
                                 var showTipValue = (this.point.y).toFixed(0);//去小数点
                                 showTipValue = commafy(showTipValue);//转为千分位，如123,4560
                                 //if(xTitleShow.indexOf('.')!=-1){
@@ -185,7 +185,8 @@
                     legendIndex: 1,
                     type: 'spline',
                     data: [],
-                    tooltip: {}
+                    tooltip: {
+                    }
                 },
                     {
                         name: '小时分布',
@@ -194,7 +195,8 @@
                         legendIndex: 3,
                         type: 'column',
                         data: [],
-                        tooltip: {}
+                        tooltip: {
+                        }
                     }]
             });
         });
