@@ -28,13 +28,13 @@ public class Bushu2Hbase {
         //补数代码
 
         HBaseDAO dao = new HBaseDAOImp();
-        dao.deleteRecords("uv_table", "20141016");
+        dao.deleteRecords("uv_table", "20171116");
 
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(DateFmt.date_short);
         SimpleDateFormat sdf2 = new SimpleDateFormat(DateFmt.date_minute);
-        calendar.setTime(sdf.parse("2014-10-16"));
+        calendar.setTime(sdf.parse("2017-11-16"));
         long uv = 0;
         for (int i = 0; i < 21; i++) {
             calendar.add(Calendar.MINUTE, 60);

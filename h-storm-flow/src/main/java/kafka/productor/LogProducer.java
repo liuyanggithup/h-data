@@ -16,25 +16,30 @@
  */
 package kafka.productor;
 
-import java.util.Properties;
-import java.util.Random;
 
-
-import kafka.producer.KeyedMessage;
-import kafka.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.storm.utils.Utils;
 import tools.DateFmt;
 
+import java.util.Properties;
+import java.util.Random;
+
 public class LogProducer extends Thread {
-	private final kafka.javaapi.producer.Producer<Integer, String> producer;
+	private final org.apache.kafka.clients.producer.Producer<Integer, String> producer;
 	private final String topic;
 	private final Properties props = new Properties();
 
 	public LogProducer(String topic) {
-		props.put("serializer.class", "kafka.serializer.StringEncoder");// 字符串消息
-		props.put("metadata.broker.list",KafkaProperties.broker_list);
-		producer = new kafka.javaapi.producer.Producer<Integer, String>(
-				new ProducerConfig(props));
+		props.put("bootstrap.servers", KafkaProperties.broker_list);
+		props.put("acks", "all");
+		props.put("retries", 0);
+		props.put("batch.size", 16384);
+		props.put("linger.ms", 1);
+		props.put("buffer.memory", 33554432);
+		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+		producer = new KafkaProducer(props);
 		this.topic = topic;
 	}
 
@@ -51,10 +56,10 @@ public class LogProducer extends Thread {
 			String sidString = session_id[random.nextInt(5)]+i ;
 			String messageStr1 = hosts[0]+"\t"+sidString+"\t"+ DateFmt.getCountDate(null, DateFmt.date_long);
 			String messageStr2 = hosts[0]+"\t"+sidString+"\t"+DateFmt.getCountDate(null, DateFmt.date_long);
-			producer.send(new KeyedMessage<Integer, String>(topic, messageStr1));
-			producer.send(new KeyedMessage<Integer, String>(topic, messageStr2));
+			producer.send(new ProducerRecord(topic, messageStr1));
+			producer.send(new ProducerRecord(topic, messageStr2));
 			System.out.println(messageStr1);
-			Utils.sleep(100) ;
+			Utils.sleep(1000) ;
 		}
 	}
 
